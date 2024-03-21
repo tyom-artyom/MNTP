@@ -11,6 +11,8 @@
 #include <QTableWidget>
 #include <QHeaderView>
 
+#include "plannereventcell.h"
+
 
 class PlannerTableWidget : public QTableWidget
 {
@@ -18,17 +20,14 @@ class PlannerTableWidget : public QTableWidget
 
 public:
     PlannerTableWidget(QWidget* parent = nullptr);
-    ~PlannerTableWidget();
 
 private:
-    QSqlQuery   query;
+    QSqlQuery         query;
 
-    QStringList rowLabels;
-    QStringList columnLabels;
+    QStringList       rowLabels;
+    QStringList       columnLabels;
 
-public slots:
-    void updateDb();
-    void updateTable();
+    PlannerEventCell* eventCell;
 };
 
 

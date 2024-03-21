@@ -20,6 +20,8 @@ SOURCES += \
     markstablewidget.cpp \
     markswidget.cpp \
     noteswidget.cpp \
+    plannereventcell.cpp \
+    plannereventwidget.cpp \
     plannertablewidget.cpp \
     plannerwidget.cpp \
     preferencesdialog.cpp \
@@ -37,6 +39,8 @@ HEADERS += \
     markstablewidget.h \
     markswidget.h \
     noteswidget.h \
+    plannereventcell.h \
+    plannereventwidget.h \
     plannertablewidget.h \
     plannerwidget.h \
     preferencesdialog.h \
