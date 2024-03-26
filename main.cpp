@@ -16,7 +16,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication mainApplication(argc, argv);
+    QApplication application(argc, argv);
 
     QSettings settings("Tyoma Corp", "MNTP");
 
@@ -24,13 +24,13 @@ int main(int argc, char *argv[])
         QTranslator translator;
         const QStringList uiLanguages = QLocale::system().uiLanguages();
 
-        for (const QString &locale : uiLanguages)
+        for (const QString& locale : uiLanguages)
         {
             const QString baseName = "MNTP_" + QLocale(locale).name();
 
             if (translator.load(":/i18n/" + baseName))
             {
-                mainApplication.installTranslator(&translator);
+                application.installTranslator(&translator);
                 break;
             }
         }
@@ -66,5 +66,5 @@ int main(int argc, char *argv[])
 
     mainWindow.show();
 
-    return mainApplication.exec();
+    return application.exec();
 }

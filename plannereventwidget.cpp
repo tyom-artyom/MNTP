@@ -18,7 +18,7 @@ PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
     description->setText("Default");
 }
 
-void PlannerEventWidget::mousePressEvent()
+void PlannerEventWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
