@@ -1,15 +1,15 @@
 #include <QApplication>
 
-#include <QDebug>
-
 #include <QSettings>
 
 #include <QTranslator>
 #include <QLocale>
 
 #include <QSqlDatabase>
-#include <QSqlError>
 #include <QSqlQuery>
+
+#include <QSqlError>
+#include <QDebug>
 
 #include "mainwindow.h"
 
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
         db.setUserName("postgres");
         db.setPort(5432);
         db.setDatabaseName("postgres");
+
         if (!db.open())
         {
             qDebug() << db.lastError().text();
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
         db.setHostName("localhost");
         db.setUserName("postgres");
         db.setDatabaseName(dbName);
+
         if (!db.open())
         {
             qDebug() << db.lastError().text();

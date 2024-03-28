@@ -2,32 +2,22 @@
 #define PLANNERTABLEWIDGET_H
 
 
-#include <QDebug>
+#include <QWidget>
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-
-#include <QTableWidget>
-#include <QHeaderView>
-
-#include "plannereventcell.h"
+#include <QPaintEvent>
+#include <QPainter>
+#include <QPen>
 
 
-class PlannerTableWidget : public QTableWidget
+class PlannerTableWidget : public QWidget
 {
-    Q_OBJECT
-
 public:
     PlannerTableWidget(QWidget* parent = nullptr);
 
 private:
-    QSqlQuery         query;
+    void paintEvent(QPaintEvent* event);
 
-    QStringList       rowLabels;
-    QStringList       columnLabels;
-
-    PlannerEventCell* eventCell;
+    QPen pen;
 };
 
 

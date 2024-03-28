@@ -3,9 +3,9 @@
 
 ManagerWidget::ManagerWidget(QWidget* parent) : QTabWidget(parent)
 {
-    marksTableWidget = new MarksTableWidget(this);
     progressWidget   = new ProgressWidget(this);
+    marksWidget      = new MarksWidget(this);
 
-    insertTab(0, marksTableWidget, "Marks");
-    insertTab(1, progressWidget,   "Progress");
+    insertTab(0, progressWidget, "Progress");
+    insertTab(1, marksWidget,    "Marks");
 }

@@ -8,7 +8,7 @@
 class ProgressWidget : public QWidget
 {
 public:
-    ProgressWidget(QWidget* parent);
+    ProgressWidget(QWidget* parent = nullptr);
 };
 
 

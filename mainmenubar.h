@@ -5,9 +5,8 @@
 #include <QApplication>
 
 #include <QSettings>
-#include <QStyleFactory>
 
-#include <QMainWindow>
+#include <QStyleFactory>
 
 #include <QMenuBar>
 #include <QMenu>
@@ -37,11 +36,11 @@ private:
 
     QAction*           changeStyleAction;
     QMenu*             stylesMenu;
-    QStringList        availableStyles;
     QAction*           styleAction;
-    QString            availableStyle;
 
-public slots:
+    QStringList        availableStyles;
+
+private slots:
     void exitSlot();
 
     void preferencesSlot();

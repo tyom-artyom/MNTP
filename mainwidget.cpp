@@ -32,4 +32,6 @@ MainWidget::MainWidget(QWidget* parent) : QStackedWidget(parent)
     addWidget(notesWidget);
     addWidget(trackerWidget);
     addWidget(plannerWidget);
+
+    setCurrentWidget(plannerWidget);
 }

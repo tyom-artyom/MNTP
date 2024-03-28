@@ -9,9 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    calendardockwidget.cpp \
     main.cpp \
-    maindockwidgets.cpp \
     mainmenubar.cpp \
     maintoolbar.cpp \
     mainwidget.cpp \
@@ -20,7 +18,7 @@ SOURCES += \
     markstablewidget.cpp \
     markswidget.cpp \
     noteswidget.cpp \
-    plannereventcell.cpp \
+    plannercalendardockwidget.cpp \
     plannereventwidget.cpp \
     plannertablewidget.cpp \
     plannerwidget.cpp \
@@ -29,8 +27,6 @@ SOURCES += \
     trackerwidget.cpp
 
 HEADERS += \
-    calendardockwidget.h \
-    maindockwidgets.h \
     mainmenubar.h \
     maintoolbar.h \
     mainwidget.h \
@@ -39,7 +35,7 @@ HEADERS += \
     markstablewidget.h \
     markswidget.h \
     noteswidget.h \
-    plannereventcell.h \
+    plannercalendardockwidget.h \
     plannereventwidget.h \
     plannertablewidget.h \
     plannerwidget.h \

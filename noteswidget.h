@@ -2,9 +2,7 @@
 #define NOTESWIDGET_H
 
 
-#include <QGridLayout>
-
-#include <QTextEdit>
+#include <QWidget>
 
 
 class NotesWidget : public QWidget

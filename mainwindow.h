@@ -4,16 +4,12 @@
 
 #include <QSettings>
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-
 #include <QMainWindow>
 
 #include "mainwidget.h"
 #include "mainmenubar.h"
 #include "maintoolbar.h"
-#include "maindockwidgets.h"
+#include "plannercalendardockwidget.h"
 
 
 class MainWindow : public QMainWindow
@@ -24,15 +20,16 @@ public:
     MainWindow(QWidget* parent = nullptr);
 
 private:
-    QSettings        settings;
+    QSettings                  settings;
 
-    MainWidget*      mainWidget;
-    MainMenuBar*     mainMenuBar;
-    MainToolBar*     mainToolBar;
-    MainDockWidgets* mainDockWidgets;
+    MainWidget*                mainWidget;
+    MainMenuBar*               mainMenuBar;
+    MainToolBar*               mainToolBar;
+    PlannerCalendarDockWidget* plannerCalendarDockWidget;
 
-public slots:
+private slots:
     void removeAllDockWidgets();
+    void addPlannerCalendarDockWidget();
 };
 
 

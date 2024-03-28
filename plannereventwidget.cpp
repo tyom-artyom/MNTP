@@ -5,25 +5,25 @@ PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
 {
     layout      = new QGridLayout(this);
 
-    name        = new QLabel(this);
+    label       = new QLabel(this);
     interval    = new QLabel(this);
     description = new QLabel(this);
 
-    layout->addWidget(name, 0, 0);
+    label      ->setText("Label");
+    interval   ->setText("Interval");
+    description->setText("Description");
+
+    layout->addWidget(label, 0, 0);
     layout->addWidget(interval, 0, 1);
     layout->addWidget(description, 1, 0);
-
-    name->setText("Default");
-    interval->setText("Default");
-    description->setText("Default");
 }
 
 void PlannerEventWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        m_dragStartPos = event->pos();
-        m_dragging = true;
+        dragStartPos = event->pos();
+        dragging = true;
     }
 }
 
@@ -33,16 +33,16 @@ void PlannerEventWidget::mouseMoveEvent(QMouseEvent *event)
     {
         return;
     }
-    if (!m_dragging)
+    if (!dragging)
     {
         return;
     }
-    QPoint newPos = this->pos() + (event->pos() - m_dragStartPos);
+    QPoint newPos = this->pos() + (event->pos() - dragStartPos);
 
     this->move(newPos);
 }
 
 void PlannerEventWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    m_dragging = false;
+    dragging = false;
 }

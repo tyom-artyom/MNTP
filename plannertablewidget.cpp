@@ -1,26 +1,17 @@
 #include "plannertablewidget.h"
 
 
-PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QTableWidget(parent)
+void PlannerTableWidget::paintEvent(QPaintEvent *event)
 {
-    setColumnCount(3);
-    setRowCount(1);
-
-    verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    columnLabels << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday";
-
-    verticalHeader()->setVisible(false);
-    setHorizontalHeaderLabels(columnLabels);
-
-    for (short int row{0} ; row < rowCount() ; ++row)
-    {
-        for (short int column{0} ; column < columnCount() ; ++column)
-        {
-            eventCell = new PlannerEventCell(this);
-            setCellWidget(row, column, eventCell);
-        }
-    }
+    QPainter painter;
+    painter.begin(this);
+    painter.setPen(pen);
+    painter.drawLine(0, 0, width(), 0);
+    painter.end();
 }
 
+PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QWidget(parent)
+{
+    pen.setWidth(2);
+    pen.setBrush(Qt::white);
+}

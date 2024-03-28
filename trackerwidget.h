@@ -11,4 +11,5 @@ public:
     TrackerWidget(QWidget* parent = nullptr);
 };
 
+
 #endif // TRACKERWIDGET_H

@@ -10,6 +10,9 @@ class MarksTableWidget : public QTableWidget
 {
 public:
     MarksTableWidget(QWidget* parent = nullptr);
+
+private:
+    QStringList columnLabels;
 };
 
 

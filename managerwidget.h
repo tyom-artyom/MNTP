@@ -4,8 +4,8 @@
 
 #include <QTabWidget>
 
-#include "markswidget.h"
 #include "progresswidget.h"
+#include "markswidget.h"
 
 
 class ManagerWidget : public QTabWidget
@@ -16,8 +16,8 @@ public:
     ManagerWidget(QWidget* parent = nullptr);
 
 private:
-    MarksTableWidget* marksTableWidget;
-    ProgressWidget*   progressWidget;
+    ProgressWidget* progressWidget;
+    MarksWidget*    marksWidget;
 };
 
 

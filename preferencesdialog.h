@@ -3,9 +3,11 @@
 
 
 #include <QDialog>
-#include <QGridLayout>
+
+#include <QHBoxLayout>
 
 #include <QListWidget>
+
 #include <QIcon>
 
 
@@ -14,18 +16,20 @@ class PreferencesDialog : public QDialog
 public:
     PreferencesDialog(QWidget* parent = nullptr);
 
-
-    QGridLayout*     mainLayout;
+private:
+    QHBoxLayout*     layout;
 
     QListWidget*     optionsList;
+    QListWidget*     optionsList1;
+
     QListWidgetItem* generalItem;
-    QListWidgetItem* mailItem;
+    QListWidgetItem* managerItem;
     QListWidgetItem* notesItem;
     QListWidgetItem* trackerItem;
     QListWidgetItem* plannerItem;
 
-    QListWidget*     optionsList1;
     QListWidgetItem* optionItem1;
 };
+
 
 #endif // PREFERENCESDIALOG_H

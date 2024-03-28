@@ -5,6 +5,7 @@
 #include <QToolBar>
 
 #include <QActionGroup>
+
 #include <QAction>
 
 
@@ -16,7 +17,7 @@ public:
     MainToolBar(QWidget* parent = nullptr);
 
 private:
-    QActionGroup* actionsGroup;
+    QActionGroup* actionGroup;
 
     QAction*      managerAction;
     QAction*      notesAction;

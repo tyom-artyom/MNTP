@@ -2,7 +2,9 @@
 #define PLANNERWIDGET_H
 
 
-#include <QGridLayout>
+#include <QWidget>
+
+#include <QVBoxLayout>
 
 #include "plannertablewidget.h"
 
@@ -13,9 +15,10 @@ public:
     PlannerWidget(QWidget* parent = nullptr);
 
 private:
-    QGridLayout* layout;
+    QVBoxLayout*        layout;
 
     PlannerTableWidget* plannerTableWidget;
 };
+
 
 #endif // PLANNERWIDGET_H

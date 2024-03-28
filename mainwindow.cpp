@@ -11,8 +11,17 @@ void MainWindow::removeAllDockWidgets()
     }
 }
 
+void MainWindow::addPlannerCalendarDockWidget()
+{
+    addDockWidget(Qt::LeftDockWidgetArea, plannerCalendarDockWidget);
+
+    plannerCalendarDockWidget->show();
+}
+
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
 {
+    setWindowTitle("MNTP");
+
     QApplication::setStyle(QStyleFactory::create(settings.value("appStyle", "DefaultStyle").toString()));
 
     //  mainWidget{{{
@@ -39,13 +48,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
     //}}}
 
     //  mainDockWidgets{{{
-        mainDockWidgets = new MainDockWidgets(this);
+        plannerCalendarDockWidget = new PlannerCalendarDockWidget(this);
 
-        QObject::connect(mainToolBar, &MainToolBar::managerActionTriggered, this,                                       &MainWindow::removeAllDockWidgets);
-        QObject::connect(mainToolBar, &MainToolBar::notesActionTriggered,   this,                                       &MainWindow::removeAllDockWidgets);
-        QObject::connect(mainToolBar, &MainToolBar::trackerActionTriggered, this,                                       &MainWindow::removeAllDockWidgets);
-        QObject::connect(mainToolBar, &MainToolBar::trackerActionTriggered, mainDockWidgets->trackerCalendarDockWidget, &CalendarDockWidget::addWidget);
-        QObject::connect(mainToolBar, &MainToolBar::plannerActionTriggered, this,                                       &MainWindow::removeAllDockWidgets);
-        QObject::connect(mainToolBar, &MainToolBar::plannerActionTriggered, mainDockWidgets->plannerCalendarDockWidget, &CalendarDockWidget::addWidget);
+        plannerCalendarDockWidget->hide();
+
+        QObject::connect(mainToolBar, &MainToolBar::managerActionTriggered, this, &MainWindow::removeAllDockWidgets);
+        QObject::connect(mainToolBar, &MainToolBar::notesActionTriggered,   this, &MainWindow::removeAllDockWidgets);
+        QObject::connect(mainToolBar, &MainToolBar::trackerActionTriggered, this, &MainWindow::removeAllDockWidgets);
+        QObject::connect(mainToolBar, &MainToolBar::plannerActionTriggered, this, &MainWindow::removeAllDockWidgets);
+        QObject::connect(mainToolBar, &MainToolBar::plannerActionTriggered, this, &MainWindow::addPlannerCalendarDockWidget);
     //}}}
 }

@@ -22,14 +22,14 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    QPoint m_dragStartPos;
-    bool m_dragging = false;
-
     QGridLayout* layout;
 
-    QLabel* name;
+    QLabel* label;
     QLabel* interval;
     QLabel* description;
+
+    QPoint dragStartPos;
+    bool   dragging = false;
 };
 
 
