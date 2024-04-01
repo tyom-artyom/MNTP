@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
     //  mainDockWidgets{{{
         plannerCalendarDockWidget = new PlannerCalendarDockWidget(this);
 
-        plannerCalendarDockWidget->hide();
+        addPlannerCalendarDockWidget();
 
         QObject::connect(mainToolBar, &MainToolBar::managerActionTriggered, this, &MainWindow::removeAllDockWidgets);
         QObject::connect(mainToolBar, &MainToolBar::notesActionTriggered,   this, &MainWindow::removeAllDockWidgets);

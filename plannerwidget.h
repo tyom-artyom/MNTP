@@ -18,6 +18,15 @@ private:
     QVBoxLayout*        layout;
 
     PlannerTableWidget* plannerTableWidget;
+
+    int columnCount{};
+    int rowCount{};
+
+    QStringList horizontalHeadings;
+    QStringList verticalHeadings;
+
+public slots:
+    void setInterval();
 };
 
 
