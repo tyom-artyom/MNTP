@@ -3,17 +3,22 @@
 
 void PlannerTableWidget::setColumnCount(int columnCount)
 {
-    this->columnCount = columnCount;
+    this->columnCount = columnCount + 1;
 
     for (int i{} ; i < columnCount ; ++i)
     {
-        columnsRects.append(QRect(0, 0, 0, 0));
+        columnsRect.append(QRect(0, 0, 0, 0));
+    }
+
+    for (int i{} ; i < columnCount ; ++i)
+    {
+        columnsWidgets.append(QVector<QWidget*>());
     }
 }
 
 void PlannerTableWidget::setRowCount(int rowCount)
 {
-    this->rowCount    = rowCount;
+    this->rowCount    = rowCount + 1;
 }
 
 void PlannerTableWidget::setHorizontalHeadings(QStringList& horizontalHeadings)
@@ -36,9 +41,9 @@ void PlannerTableWidget::setVerticalHeadingsVisible(bool verticalHeadingsVisible
     this->verticalHeadingsVisible   = verticalHeadingsVisible;
 }
 
-void PlannerTableWidget::addWidget(QWidget* widget)
+void PlannerTableWidget::addWidget(int column, QWidget* widget)
 {
-
+    columnsWidgets[column].append(widget);
 }
 
 void PlannerTableWidget::drawTable()
@@ -46,7 +51,9 @@ void PlannerTableWidget::drawTable()
     columnMargin = (width()  - (columnCount - 1))  / columnCount;
     rowMargin    = (height() - (rowCount - 1))     / rowCount;
 
-    rowLine = rowMargin * (0 + 1) + (0 + 1);
+    int columnLine;
+    int nextColumnLine;
+    int rowLine = rowMargin * (0 + 1) + (0 + 1);
 
     for (int column{} ; column < columnCount - 1 ; ++column)
     {
@@ -54,8 +61,7 @@ void PlannerTableWidget::drawTable()
         nextColumnLine = columnMargin * (column + 1 + 1) + (column + 1 + 1);
 
         painter.drawLine(columnLine, 0, columnLine, height() - 1);
-        columnsRects[column] = QRect(columnLine + 1, rowLine + 1, (column + 1 == columnCount - 1 ? (width() - 1) - (columnLine + 1) : columnMargin - 1), (height() - 1) - (rowLine + 1));
-        columnsRects[column] = QRect(QPoint(columnLine + 1, rowLine + 1), QPoint((column + 1 == columnCount - 1 ? width() - 1 : columnMargin - 1), height() - 1));
+        columnsRect[column] = QRect(columnLine + 1, rowLine + 1, (column + 1 == columnCount - 1 ? (width() - 1) - (columnLine + 1) : columnMargin - 1) + 1, (height() - 1) - (rowLine + 1));
     }
 
     columnLine     = columnMargin * (0 + 1) + (0 + 1);
@@ -71,9 +77,14 @@ void PlannerTableWidget::drawTable()
 
 void PlannerTableWidget::drawHorizontalHeadings()
 {
+    int columnLine;
+    int rowLine = rowMargin * (0 + 1) + (0 + 1);
+
     for (int column{} ; column < columnCount - 1 ; ++column)
     {
-        painter.drawText(columnMargin * (column + 1) + (column + 1) + 2, rowMargin * 1 + 1 - 2, horizontalHeadings[column]);
+        columnLine     = columnMargin * (column + 1)     + (column + 1);
+
+        painter.drawText(columnLine + 2, rowLine - 2, horizontalHeadings[column]);
     }
 }
 
@@ -85,6 +96,26 @@ void PlannerTableWidget::drawVerticalHeadings()
     }
 }
 
+void PlannerTableWidget::drawRects()
+{
+    for (QRect columnRect : columnsRect)
+    {
+        painter.drawRect(columnRect);
+    }
+}
+
+void PlannerTableWidget::allocateWidgets()
+{
+    for (int column{} ; column  < columnCount - 1 ; ++column)
+    {
+        for (QWidget* widget : columnsWidgets[column])
+        {
+            widget->move(columnsRect[column].x(), columnsRect[column].y());
+            widget->resize(columnsRect[column].width(), widget->height());
+        }
+    }
+}
+
 void PlannerTableWidget::paintEvent(QPaintEvent *event)
 {
     painter.begin(this);
@@ -92,6 +123,9 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
     painter.setPen(pen);
 
     drawTable();
+
+    painter.setPen(textPen);
+
     if (horizontalHeadingsVisible)
     {
         drawHorizontalHeadings();
@@ -101,10 +135,7 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
         drawVerticalHeadings();
     }
 
-    for (QRect columnRect : columnsRects)
-    {
-        painter.drawRect(columnRect);
-    }
+    allocateWidgets();
 
     painter.end();
 }

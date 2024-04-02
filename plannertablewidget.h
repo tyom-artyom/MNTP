@@ -26,12 +26,16 @@ public:
     void setHorizontalHeadingsVisible(bool horizontalHeadingsVisible);
     void setVerticalHeadingsVisible  (bool verticalHeadingsVisible);
 
-    void addWidget(QWidget* widget);
+    void addWidget(int column, QWidget* widget);
 
 protected:
     void drawTable();
     void drawHorizontalHeadings();
     void drawVerticalHeadings();
+
+    void drawRects();
+
+    void allocateWidgets();
 
     void paintEvent(QPaintEvent* event);
 
@@ -45,20 +49,19 @@ private:
     bool horizontalHeadingsVisible{true};
     bool verticalHeadingsVisible  {true};
 
-    QPainter painter;
+    QVector<QVector <QWidget*>> columnsWidgets;
 
-public:
-    QPen     pen;
-
-private:
     int columnMargin;
     int rowMargin;
 
-    int columnLine;
-    int nextColumnLine;
-    int rowLine;
+    QVector<QRect> columnsRect;
 
-    QVector<QRect> columnsRects;
+    QPainter painter;
+
+public:
+    QPen  pen;
+    QPen  textPen;
+    QFont font;
 };
 
 

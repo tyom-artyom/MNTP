@@ -20,6 +20,7 @@ void PlannerEventWidget::mouseMoveEvent(QMouseEvent *event)
     {
         return;
     }
+
     QPoint newPos = this->pos() + (event->pos() - dragStartPos);
 
     this->move(newPos);
@@ -41,6 +42,8 @@ PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
     label      ->setText("Label");
     interval   ->setText("Interval");
     description->setText("Description");
+
+    setStyleSheet("background-color: #488286; border-radius: 5px;");
 
     layout->addWidget(label, 0, 0);
     layout->addWidget(interval, 0, 1);

@@ -8,6 +8,8 @@
 
 #include "plannertablewidget.h"
 
+#include "plannereventwidget.h"
+
 
 class PlannerWidget : public QWidget
 {
@@ -19,14 +21,15 @@ private:
 
     PlannerTableWidget* plannerTableWidget;
 
+    PlannerEventWidget* plannerEventWidget;
+    PlannerEventWidget* plannerEventWidget1;
+    PlannerEventWidget* plannerEventWidget2;
+
     int columnCount{};
     int rowCount{};
 
     QStringList horizontalHeadings;
     QStringList verticalHeadings;
-
-public slots:
-    void setInterval();
 };
 
 
