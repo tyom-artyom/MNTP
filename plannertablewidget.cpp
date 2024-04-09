@@ -58,6 +58,8 @@ void PlannerTableWidget::countHorizontalHeadingsMaxWidth()
 
         horizontalHeadingsMaxWidth = (horizontalHeadingsMaxWidth < horizontalHeadingWidth ? horizontalHeadingWidth : horizontalHeadingsMaxWidth);
     }
+
+    horizontalHeadingsMaxWidth += textMargin * 2;
 }
 
 void PlannerTableWidget::countVerticalHeadingsMaxWidth()
@@ -86,7 +88,7 @@ void PlannerTableWidget::countHorizontalHeadingsMetrics()
 
 void PlannerTableWidget::countVerticalHeadingsMetrics()
 {
-    verticalHeadingsHeight = fontMetrics().height();
+    verticalHeadingsHeight = fontMetrics().height() + (textMargin * 2);
 
     verticalHeadingsAscent = fontMetrics().ascent();
     verticalHeadingsDescent = fontMetrics().descent();
@@ -166,6 +168,8 @@ void PlannerTableWidget::resizeEvent(QResizeEvent* event)
     fillColumnsRect();
 
     countMinimumSize();
+
+    allocateWidgets();
 }
 //}}}
 
@@ -186,7 +190,7 @@ void PlannerTableWidget::drawVerticalHeadings()
 {
     for (int row{} ; row < rowCount ; ++row)
     {
-        painter.drawText(verticalHeadingsRect[row].x() + textMargin, verticalHeadingsRect[row].y() + verticalHeadingsAscent, verticalHeadings[row]);
+        painter.drawText(verticalHeadingsRect[row].x() + textMargin, verticalHeadingsRect[row].y() + textMargin + verticalHeadingsAscent, verticalHeadings[row]);
     }
 }
 
@@ -233,8 +237,6 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
     painter.setPen(pen);
 
     drawTable();
-
-    allocateWidgets();
 
     painter.end();
 }
