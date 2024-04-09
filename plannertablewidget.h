@@ -47,6 +47,8 @@ private:
     void fillColumnsRect();
 
     void countMinimumSize();
+
+    void resizeEvent(QResizeEvent* event);
     //}}}
 
 protected:

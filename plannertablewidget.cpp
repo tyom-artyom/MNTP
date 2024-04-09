@@ -148,6 +148,25 @@ void PlannerTableWidget::countMinimumSize()
 
     setMinimumSize(minimumSize);
 }
+
+void PlannerTableWidget::resizeEvent(QResizeEvent* event)
+{
+    countHorizontalHeadingsMaxWidth();
+    countVerticalHeadingsMaxWidth();
+
+    countHorizontalHeadingsMetrics();
+    countVerticalHeadingsMetrics();
+
+    countColumnsMargin();
+    countRowsMargin();
+
+    fillHorizontalHeadingsRect();
+    fillVerticalHeadingsRect();
+
+    fillColumnsRect();
+
+    countMinimumSize();
+}
 //}}}
 
 //  painters{{{
@@ -198,22 +217,6 @@ void PlannerTableWidget::allocateWidgets()
 
 void PlannerTableWidget::paintEvent(QPaintEvent *event)
 {
-    countHorizontalHeadingsMaxWidth();
-    countVerticalHeadingsMaxWidth();
-
-    countHorizontalHeadingsMetrics();
-    countVerticalHeadingsMetrics();
-
-    countColumnsMargin();
-    countRowsMargin();
-
-    fillHorizontalHeadingsRect();
-    fillVerticalHeadingsRect();
-
-    fillColumnsRect();
-
-    countMinimumSize();
-
     painter.begin(this);
 
     painter.setPen(textPen);

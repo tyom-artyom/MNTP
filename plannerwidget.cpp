@@ -11,7 +11,7 @@ PlannerWidget::PlannerWidget(QWidget* parent) : QWidget(parent)
     plannerEventWidget1 = new PlannerEventWidget(plannerTableWidget);
     plannerEventWidget2 = new PlannerEventWidget(plannerTableWidget);
 
-    plannerTableWidget->setColumnCount(3);
+    plannerTableWidget->setColumnCount(7);
     plannerTableWidget->setRowCount(24);
 
     horizontalHeadings << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday";
