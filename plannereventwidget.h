@@ -26,7 +26,6 @@ private:
 
     QLabel* label;
     QLabel* interval;
-    QLabel* description;
 
     QPoint dragStartPos;
     bool   dragging = false;

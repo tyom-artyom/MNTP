@@ -16,6 +16,7 @@ void PlannerEventWidget::mouseMoveEvent(QMouseEvent *event)
     {
         return;
     }
+
     if (!dragging)
     {
         return;
@@ -37,15 +38,12 @@ PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
 
     label       = new QLabel(this);
     interval    = new QLabel(this);
-    description = new QLabel(this);
 
     label      ->setText("Label");
     interval   ->setText("Interval");
-    description->setText("Description");
 
     setStyleSheet("background-color: #488286; border-radius: 5px;");
 
     layout->addWidget(label, 0, 0);
     layout->addWidget(interval, 0, 1);
-    layout->addWidget(description, 1, 0);
 }
