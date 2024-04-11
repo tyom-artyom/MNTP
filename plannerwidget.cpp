@@ -1,9 +1,21 @@
 #include "plannerwidget.h"
 
 
+void PlannerWidget::passSize()
+{
+    plannerTableWidget->resize(scrollArea->size());
+}
+
+void PlannerWidget::resizeEvent(QResizeEvent* event)
+{
+    passSize();
+}
+
 PlannerWidget::PlannerWidget(QWidget* parent) : QWidget(parent)
 {
     layout              = new QVBoxLayout(this);
+
+    scrollArea          = new QScrollArea(this);
 
     plannerTableWidget  = new PlannerTableWidget(this);
 
@@ -11,12 +23,15 @@ PlannerWidget::PlannerWidget(QWidget* parent) : QWidget(parent)
     plannerEventWidget1 = new PlannerEventWidget(plannerTableWidget);
     plannerEventWidget2 = new PlannerEventWidget(plannerTableWidget);
 
-    horizontalHeadings << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday";
-    verticalHeadings   << "00:00" << "01:00" << "02:00" << "03:00" << "04:00" << "05:00" << "06:00" << "07:00" << "08:00" << "09:00" << "10:00" << "11:00"
-                       << "12:00" << "13:00" << "14:00" << "15:00" << "16:00" << "17:00" << "18:00" << "19:00" << "20:00" << "21:00" << "22:00" << "23:00";
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    plannerTableWidget->setHorizontalHeadings(horizontalHeadings);
-    plannerTableWidget->setVerticalHeadings(verticalHeadings);
+    horizontalHeaders << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday";
+    verticalHeaders   << "00:00" << "01:00" << "02:00" << "03:00" << "04:00" << "05:00" << "06:00" << "07:00" << "08:00" << "09:00" << "10:00" << "11:00"
+                      << "12:00" << "13:00" << "14:00" << "15:00" << "16:00" << "17:00" << "18:00" << "19:00" << "20:00" << "21:00" << "22:00" << "23:00";
+
+    plannerTableWidget->setHorizontalHeaders(horizontalHeaders);
+    plannerTableWidget->setVerticalHeaders(verticalHeaders);
 
     plannerTableWidget->pen.setWidth(1);
     plannerTableWidget->pen.setColor("#AAAAAA");
@@ -26,7 +41,9 @@ PlannerWidget::PlannerWidget(QWidget* parent) : QWidget(parent)
 
     setLayout(layout);
 
-    layout->addWidget(plannerTableWidget);
+    layout->addWidget(scrollArea);
+
+    scrollArea->setWidget(plannerTableWidget);
 
     plannerTableWidget->addWidget(0, plannerEventWidget);
     plannerTableWidget->addWidget(1, plannerEventWidget1);

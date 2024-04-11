@@ -6,6 +6,8 @@
 
 #include <QVBoxLayout>
 
+#include <QScrollArea>
+
 #include "plannertablewidget.h"
 
 #include "plannereventwidget.h"
@@ -17,7 +19,14 @@ public:
     PlannerWidget(QWidget* parent = nullptr);
 
 private:
+    void passSize();
+
+    void resizeEvent(QResizeEvent* event);
+
+
     QVBoxLayout*        layout;
+
+    QScrollArea*        scrollArea;
 
     PlannerTableWidget* plannerTableWidget;
 
@@ -28,8 +37,8 @@ private:
     int columnCount{};
     int rowCount{};
 
-    QStringList horizontalHeadings;
-    QStringList verticalHeadings;
+    QStringList horizontalHeaders;
+    QStringList verticalHeaders;
 };
 
 

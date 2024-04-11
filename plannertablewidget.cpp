@@ -1,18 +1,18 @@
 #include "plannertablewidget.h"
 
 //  setters/adders{{{
-void PlannerTableWidget::setHorizontalHeadings(QStringList& horizontalHeadings)
+void PlannerTableWidget::setHorizontalHeaders(QStringList& horizontalHeaders)
 {
-    this->horizontalHeadings = horizontalHeadings;
+    this->horizontalHeaders = horizontalHeaders;
 
-    setColumnsCount(horizontalHeadings.size());
+    setColumnsCount(horizontalHeaders.size());
 }
 
-void PlannerTableWidget::setVerticalHeadings(QStringList& verticalHeadings)
+void PlannerTableWidget::setVerticalHeaders(QStringList& verticalHeaders)
 {
-    this->verticalHeadings = verticalHeadings;
+    this->verticalHeaders = verticalHeaders;
 
-    setRowsCount(verticalHeadings.size());
+    setRowsCount(verticalHeaders.size());
 }
 
 void PlannerTableWidget::setTextMargin(int textMargin)
@@ -29,7 +29,7 @@ void PlannerTableWidget::setColumnsCount(int columnsCount)
 {
     this->columnsCount = columnsCount;
 
-    horizontalHeadingsRect.resize(columnsCount);
+    horizontalHeadersRect.resize(columnsCount);
 
     columnsRect.resize(columnsCount);
 
@@ -40,7 +40,7 @@ void PlannerTableWidget::setRowsCount(int rowsCount)
 {
     this->rowsCount = rowsCount;
 
-    verticalHeadingsRect.resize(rowsCount);
+    verticalHeadersRect.resize(rowsCount);
 }
 
 void PlannerTableWidget::addWidget(int column, QWidget* widget)
@@ -50,96 +50,113 @@ void PlannerTableWidget::addWidget(int column, QWidget* widget)
 //}}}
 
 //  counters{{{
-void PlannerTableWidget::countHorizontalHeadingsMaxWidth()
+void PlannerTableWidget::countHorizontalHeadersMaxWidth()
 {
-    int horizontalHeadingWidth{fontMetrics().horizontalAdvance(horizontalHeadings[0])};
+    int horizontalHeaderWidth{fontMetrics().horizontalAdvance(horizontalHeaders[0])};
 
-    horizontalHeadingsMaxWidth = horizontalHeadingWidth;
+    horizontalHeadersMaxWidth = horizontalHeaderWidth;
 
     for (int column{} ; column < columnsCount ; ++column)
     {
-        horizontalHeadingWidth = fontMetrics().horizontalAdvance(horizontalHeadings[column]);
+        horizontalHeaderWidth = fontMetrics().horizontalAdvance(horizontalHeaders[column]);
 
-        horizontalHeadingsMaxWidth = (horizontalHeadingsMaxWidth < horizontalHeadingWidth ? horizontalHeadingWidth : horizontalHeadingsMaxWidth);
+        horizontalHeadersMaxWidth = (horizontalHeadersMaxWidth < horizontalHeaderWidth ? horizontalHeaderWidth : horizontalHeadersMaxWidth);
     }
 
-    horizontalHeadingsMaxWidth += textMargin * 2;
+    horizontalHeadersMaxWidth += textMargin * 2;
 }
 
-void PlannerTableWidget::countVerticalHeadingsMaxWidth()
+void PlannerTableWidget::countVerticalHeadersMaxWidth()
 {
-    int verticalHeadingWidth{fontMetrics().horizontalAdvance(verticalHeadings[0])};
+    int verticalHeaderWidth{fontMetrics().horizontalAdvance(verticalHeaders[0])};
 
-    verticalHeadingsMaxWidth = verticalHeadingWidth;
+    verticalHeadersMaxWidth = verticalHeaderWidth;
 
     for (int row{} ; row < rowsCount ; ++row)
     {
-        verticalHeadingWidth = fontMetrics().horizontalAdvance(verticalHeadings[row]);
+        verticalHeaderWidth = fontMetrics().horizontalAdvance(verticalHeaders[row]);
 
-        verticalHeadingsMaxWidth = (verticalHeadingsMaxWidth < verticalHeadingWidth ? verticalHeadingWidth : verticalHeadingsMaxWidth);
+        verticalHeadersMaxWidth = (verticalHeadersMaxWidth < verticalHeaderWidth ? verticalHeaderWidth : verticalHeadersMaxWidth);
     }
 
-    verticalHeadingsMaxWidth += textMargin * 2;
+    verticalHeadersMaxWidth += textMargin * 2;
 }
 
-void PlannerTableWidget::countHorizontalHeadingsMetrics()
+void PlannerTableWidget::countHorizontalHeadersMetrics()
 {
-    horizontalHeadingsHeight = fontMetrics().height() + (textMargin * 2);
+    horizontalHeadersHeight = fontMetrics().height() + (textMargin * 2);
 
-    horizontalHeadingsAscent = fontMetrics().ascent();
-    horizontalHeadingsDescent = fontMetrics().descent();
+    horizontalHeadersAscent = fontMetrics().ascent();
+    horizontalHeadersDescent = fontMetrics().descent();
 }
 
-void PlannerTableWidget::countVerticalHeadingsMetrics()
+void PlannerTableWidget::countVerticalHeadersMetrics()
 {
-    verticalHeadingsHeight = fontMetrics().height() + (textMargin * 2);
+    verticalHeadersHeight = fontMetrics().height() + (textMargin * 2);
 
-    verticalHeadingsAscent = fontMetrics().ascent();
-    verticalHeadingsDescent = fontMetrics().descent();
+    verticalHeadersAscent = fontMetrics().ascent();
+    verticalHeadersDescent = fontMetrics().descent();
+}
+
+void PlannerTableWidget::countTimeIntervalAmount()
+{
+    timeIntervalAmount = (60 / timeInterval) * 24;
+}
+
+void PlannerTableWidget::countTimeIntervalSize()
+{
+    timeIntervalSize = ceil(float((height() - horizontalHeadersHeight)) / timeIntervalAmount);
+}
+
+void PlannerTableWidget::countTableHeight()
+{
+    tableHeight = horizontalHeadersHeight + (timeIntervalSize * timeIntervalAmount);
+
+    resize(width(), tableHeight);
 }
 
 void PlannerTableWidget::countColumnsMargin()
 {
-    columnsMargin = (width() - verticalHeadingsMaxWidth - columnsCount) / columnsCount;
+    columnsMargin = (width() - verticalHeadersMaxWidth - columnsCount) / columnsCount;
 }
 
 void PlannerTableWidget::countRowsMargin()
 {
-    rowsMargin = (height() - horizontalHeadingsHeight - rowsCount) / rowsCount;
+    rowsMargin = (height() - horizontalHeadersHeight - rowsCount) / rowsCount;
 }
 
-void PlannerTableWidget::fillHorizontalHeadingsRect()
+void PlannerTableWidget::fillHorizontalHeadersRect()
 {
     int columnLine;
 
     for (int column{} ; column < columnsCount ; ++column)
     {
-        columnLine = verticalHeadingsMaxWidth + (columnsMargin * column) + (column + 1) - 1;
+        columnLine = verticalHeadersMaxWidth + (columnsMargin * column) + (column + 1) - 1;
 
-        horizontalHeadingsRect[column] = QRect(columnLine + 1, 0, (column < columnsCount - 1 ? columnsMargin - 1 : width() - ((columnLine + 1) + 1)), horizontalHeadingsHeight - 1);
+        horizontalHeadersRect[column] = QRect(columnLine + 1, 0, (column < columnsCount - 1 ? columnsMargin - 1 : width() - ((columnLine + 1) + 1)), horizontalHeadersHeight - 1);
     }
 }
 
-void PlannerTableWidget::fillVerticalHeadingsRect()
+void PlannerTableWidget::fillVerticalHeadersRect()
 {
     int rowLine;
 
     for (int row{} ; row < rowsCount ; ++row)
     {
-        rowLine = horizontalHeadingsHeight + (rowsMargin * row) + (row + 1) - 1;
+        rowLine = horizontalHeadersHeight + (rowsMargin * row) + (row + 1) - 1;
 
-        verticalHeadingsRect[row] = QRect(0, rowLine + 1, verticalHeadingsMaxWidth - 1, (row < rowsCount - 1 ? rowsMargin - 1 : height() - ((rowLine + 1) + 1)));
+        verticalHeadersRect[row] = QRect(0, rowLine + 1, verticalHeadersMaxWidth - 1, (row < rowsCount - 1 ? rowsMargin - 1 : height() - ((rowLine + 1) + 1)));
     }
 }
 
 void PlannerTableWidget::fillColumnsRect()
 {
     int columnLine;
-    int rowLine = (horizontalHeadingsHeight + 1) - 1;
+    int rowLine = (horizontalHeadersHeight + 1) - 1;
 
     for (int column{} ; column < columnsCount ; ++column)
     {
-        columnLine = verticalHeadingsMaxWidth + (columnsMargin * column) + (column + 1) - 1;
+        columnLine = verticalHeadersMaxWidth + (columnsMargin * column) + (column + 1) - 1;
 
         columnsRect[column] = QRect(columnLine + 1, rowLine + 1, (column < columnsCount - 1 ? columnsMargin - 1 : width() - ((columnLine + 1) + 1)), height() - ((rowLine + 1) + 1));
     }
@@ -147,8 +164,8 @@ void PlannerTableWidget::fillColumnsRect()
 
 void PlannerTableWidget::countMinimumSize()
 {
-    int minimumTableWidth{verticalHeadingsMaxWidth + (horizontalHeadingsMaxWidth * columnsCount) + columnsCount};
-    int minimumTableHeight{horizontalHeadingsHeight + (verticalHeadingsHeight * rowsCount) + rowsCount};
+    int minimumTableWidth{verticalHeadersMaxWidth + (horizontalHeadersMaxWidth * columnsCount) + columnsCount};
+    int minimumTableHeight{horizontalHeadersHeight + (verticalHeadersHeight * rowsCount) + rowsCount};
 
     minimumSize = QSize(minimumTableWidth, minimumTableHeight);
 
@@ -169,17 +186,23 @@ void PlannerTableWidget::allocateWidgets()
 
 void PlannerTableWidget::resizeEvent(QResizeEvent* event)
 {
-    countHorizontalHeadingsMaxWidth();
-    countVerticalHeadingsMaxWidth();
+    countHorizontalHeadersMaxWidth();
+    countVerticalHeadersMaxWidth();
 
-    countHorizontalHeadingsMetrics();
-    countVerticalHeadingsMetrics();
+    countHorizontalHeadersMetrics();
+    countVerticalHeadersMetrics();
+
+    countTimeIntervalAmount();
+
+    countTimeIntervalSize();
+
+    countTableHeight();
 
     countColumnsMargin();
     countRowsMargin();
 
-    fillHorizontalHeadingsRect();
-    fillVerticalHeadingsRect();
+    fillHorizontalHeadersRect();
+    fillVerticalHeadersRect();
 
     fillColumnsRect();
 
@@ -190,23 +213,23 @@ void PlannerTableWidget::resizeEvent(QResizeEvent* event)
 //}}}
 
 //  painters{{{
-void PlannerTableWidget::drawHorizontalHeadings()
+void PlannerTableWidget::drawHorizontalHeaders()
 {
-    int horizontalHeadingsTextMargin;
+    int horizontalHeadersTextMargin;
 
     for (int column{} ; column < columnsCount ; ++column)
     {
-        horizontalHeadingsTextMargin = (((((horizontalHeadingsRect[column].width() + 1) - fontMetrics().horizontalAdvance(horizontalHeadings[column])) / 2) - 1) + 1);
+        horizontalHeadersTextMargin = (((((horizontalHeadersRect[column].width() + 1) - fontMetrics().horizontalAdvance(horizontalHeaders[column])) / 2) - 1) + 1);
 
-        painter.drawText(horizontalHeadingsRect[column].x() + horizontalHeadingsTextMargin, horizontalHeadingsRect[column].y() + textMargin + horizontalHeadingsAscent, horizontalHeadings[column]);
+        painter.drawText(horizontalHeadersRect[column].x() + horizontalHeadersTextMargin, horizontalHeadersRect[column].y() + textMargin + horizontalHeadersAscent, horizontalHeaders[column]);
     }
 }
 
-void PlannerTableWidget::drawVerticalHeadings()
+void PlannerTableWidget::drawVerticalHeaders()
 {
     for (int row{} ; row < rowsCount ; ++row)
     {
-        painter.drawText(verticalHeadingsRect[row].x() + textMargin, verticalHeadingsRect[row].y() + textMargin + verticalHeadingsAscent, verticalHeadings[row]);
+        painter.drawText(verticalHeadersRect[row].x() + textMargin, verticalHeadersRect[row].y() + textMargin + verticalHeadersAscent, verticalHeaders[row]);
     }
 }
 
@@ -214,12 +237,12 @@ void PlannerTableWidget::drawTable()
 {
     for (int column{} ; column < columnsCount ; ++column)
     {
-        painter.drawLine(horizontalHeadingsRect[column].x() - 1, 0, horizontalHeadingsRect[column].x() - 1, height() - 1);
+        painter.drawLine(horizontalHeadersRect[column].x() - 1, 0, horizontalHeadersRect[column].x() - 1, height() - 1);
     }
 
     for (int row{} ; row < rowsCount ; ++row)
     {
-        painter.drawLine(0, verticalHeadingsRect[row].y() - 1, width() - 1, verticalHeadingsRect[row].y() - 1);
+        painter.drawLine(0, verticalHeadersRect[row].y() - 1, width() - 1, verticalHeadersRect[row].y() - 1);
     }
 }
 
@@ -229,8 +252,8 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
 
     painter.setPen(textPen);
 
-    drawHorizontalHeadings();
-    drawVerticalHeadings();
+    drawHorizontalHeaders();
+    drawVerticalHeaders();
 
     painter.setPen(pen);
 

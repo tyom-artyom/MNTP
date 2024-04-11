@@ -18,8 +18,8 @@ public:
     PlannerTableWidget(QWidget* parent = nullptr);
 
     //  setters/adders{{{
-    void setHorizontalHeadings(QStringList& horizontalHeadings);
-    void setVerticalHeadings  (QStringList& verticalHeadings);
+    void setHorizontalHeaders(QStringList& horizontalHeaders);
+    void setVerticalHeaders  (QStringList& verticalHeaders);
 
     void setTextMargin(int textMargin = 5);
 
@@ -33,19 +33,23 @@ public:
 
 private:
     //  counters{{{
-    void countHorizontalHeadingsMaxWidth();
-    void countVerticalHeadingsMaxWidth();
+    void countHorizontalHeadersMaxWidth();
+    void countVerticalHeadersMaxWidth();
 
-    void countHorizontalHeadingsMetrics();
-    void countVerticalHeadingsMetrics();
+    void countHorizontalHeadersMetrics();
+    void countVerticalHeadersMetrics();
+
+    void countTimeIntervalAmount();
+
+    void countTimeIntervalSize();
 
     void countTableHeight();
 
     void countColumnsMargin();
     void countRowsMargin();
 
-    void fillHorizontalHeadingsRect();
-    void fillVerticalHeadingsRect();
+    void fillHorizontalHeadersRect();
+    void fillVerticalHeadersRect();
 
     void fillColumnsRect();
 
@@ -58,8 +62,8 @@ private:
 
 protected:
     //  drawers{{{
-    void drawHorizontalHeadings();
-    void drawVerticalHeadings();
+    void drawHorizontalHeaders();
+    void drawVerticalHeaders();
 
     void drawTable();
 
@@ -68,8 +72,8 @@ protected:
 
 private:
     //  values{{{
-    QStringList horizontalHeadings;
-    QStringList verticalHeadings;
+    QStringList horizontalHeaders;
+    QStringList verticalHeaders;
 
     int textMargin{5};      //pixels
 
@@ -80,25 +84,29 @@ private:
 
     QVector<QVector<QWidget*>> columnsWidgets;
 
-    int horizontalHeadingsMaxWidth;
-    int verticalHeadingsMaxWidth;
+    int horizontalHeadersMaxWidth;
+    int verticalHeadersMaxWidth;
 
-    int horizontalHeadingsHeight;
-    int verticalHeadingsHeight;
+    int horizontalHeadersHeight;
+    int verticalHeadersHeight;
 
-    int horizontalHeadingsAscent;
-    int verticalHeadingsAscent;
+    int horizontalHeadersAscent;
+    int verticalHeadersAscent;
 
-    int horizontalHeadingsDescent;
-    int verticalHeadingsDescent;
+    int horizontalHeadersDescent;
+    int verticalHeadersDescent;
+
+    int timeIntervalAmount;
+
+    int timeIntervalSize;
 
     int tableHeight;
 
     int columnsMargin;
     int rowsMargin;
 
-    QVector<QRect> horizontalHeadingsRect;
-    QVector<QRect> verticalHeadingsRect;
+    QVector<QRect> horizontalHeadersRect;
+    QVector<QRect> verticalHeadersRect;
 
     QVector<QRect> columnsRect;
 
