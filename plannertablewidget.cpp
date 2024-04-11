@@ -15,6 +15,16 @@ void PlannerTableWidget::setVerticalHeadings(QStringList& verticalHeadings)
     setRowsCount(verticalHeadings.size());
 }
 
+void PlannerTableWidget::setTextMargin(int textMargin)
+{
+    this->textMargin = textMargin;
+}
+
+void PlannerTableWidget::setTimeInterval(int timeInterval)
+{
+    this->timeInterval = timeInterval;
+}
+
 void PlannerTableWidget::setColumnsCount(int columnsCount)
 {
     this->columnsCount = columnsCount;

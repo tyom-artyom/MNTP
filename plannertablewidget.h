@@ -21,6 +21,10 @@ public:
     void setHorizontalHeadings(QStringList& horizontalHeadings);
     void setVerticalHeadings  (QStringList& verticalHeadings);
 
+    void setTextMargin(int textMargin = 5);
+
+    void setTimeInterval(int timeInterval = 5);
+
     void setColumnsCount(int columnsCount = 0);
     void setRowsCount   (int rowsCount    = 0);
 
@@ -34,6 +38,8 @@ private:
 
     void countHorizontalHeadingsMetrics();
     void countVerticalHeadingsMetrics();
+
+    void countTableHeight();
 
     void countColumnsMargin();
     void countRowsMargin();
@@ -65,10 +71,12 @@ private:
     QStringList horizontalHeadings;
     QStringList verticalHeadings;
 
-    int textMargin{5};
+    int textMargin{5};      //pixels
 
-    int columnsCount{0};
-    int rowsCount{0};
+    int timeInterval{5};    //minutes <= 60 minutes
+
+    int columnsCount{0};    //amount
+    int rowsCount{0};       //amount
 
     QVector<QVector<QWidget*>> columnsWidgets;
 
@@ -83,6 +91,8 @@ private:
 
     int horizontalHeadingsDescent;
     int verticalHeadingsDescent;
+
+    int tableHeight;
 
     int columnsMargin;
     int rowsMargin;
