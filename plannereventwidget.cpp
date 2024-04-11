@@ -22,7 +22,7 @@ void PlannerEventWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
-    QPoint newPos = this->pos() + (event->pos() - dragStartPos);
+    QPoint newPos = QPoint(this->x(), this->y() + (event->y() - dragStartPos.y()));
 
     this->move(newPos);
 }
@@ -39,10 +39,12 @@ PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
     label       = new QLabel(this);
     interval    = new QLabel(this);
 
-    label      ->setText("Label");
-    interval   ->setText("Interval");
+    label   ->setText("Label");
+    interval->setText("Interval");
 
     setStyleSheet("background-color: #488286; border-radius: 5px;");
+
+    setLayout(layout);
 
     layout->addWidget(label, 0, 0);
     layout->addWidget(interval, 0, 1);

@@ -18,14 +18,11 @@ public:
     PlannerTableWidget(QWidget* parent = nullptr);
 
     //  setters/adders{{{
-    void setHorizontalHeadingsVisible(bool horizontalHeadingsVisible = true);
-    void setVerticalHeadingsVisible  (bool verticalHeadingsVisible   = true);
-
     void setHorizontalHeadings(QStringList& horizontalHeadings);
     void setVerticalHeadings  (QStringList& verticalHeadings);
 
-    void setColumnCount(int columnCount = 0);
-    void setRowCount   (int rowCount    = 0);
+    void setColumnsCount(int columnsCount = 0);
+    void setRowsCount   (int rowsCount    = 0);
 
     void addWidget(int column, QWidget* widget);
     //}}}
@@ -48,6 +45,8 @@ private:
 
     void countMinimumSize();
 
+    void allocateWidgets();
+
     void resizeEvent(QResizeEvent* event);
     //}}}
 
@@ -55,19 +54,23 @@ protected:
     //  drawers{{{
     void drawHorizontalHeadings();
     void drawVerticalHeadings();
+
     void drawTable();
-
-    void drawRects();
-
-    void allocateWidgets();
 
     void paintEvent(QPaintEvent* event);
     //}}}
 
 private:
     //  values{{{
-    bool horizontalHeadingsVisible{true};
-    bool verticalHeadingsVisible{true};
+    QStringList horizontalHeadings;
+    QStringList verticalHeadings;
+
+    int textMargin{5};
+
+    int columnsCount{0};
+    int rowsCount{0};
+
+    QVector<QVector<QWidget*>> columnsWidgets;
 
     int horizontalHeadingsMaxWidth;
     int verticalHeadingsMaxWidth;
@@ -76,39 +79,30 @@ private:
     int verticalHeadingsHeight;
 
     int horizontalHeadingsAscent;
-    int horizontalHeadingsDescent;
-
     int verticalHeadingsAscent;
+
+    int horizontalHeadingsDescent;
     int verticalHeadingsDescent;
-
-    int textMargin{5};
-
-    QVector<QRect> horizontalHeadingsRect;
-    QVector<QRect> verticalHeadingsRect;
-
-    QStringList horizontalHeadings;
-    QStringList verticalHeadings;
-
-    int columnCount{0};
-    int rowCount{0};
 
     int columnsMargin;
     int rowsMargin;
 
-    QVector<QRect> columnsRect;
+    QVector<QRect> horizontalHeadingsRect;
+    QVector<QRect> verticalHeadingsRect;
 
-    QVector<QVector<QWidget*>> columnsWidgets;
+    QVector<QRect> columnsRect;
 
     QSize minimumSize;
     //}}}
 
     //  painter values{{{
-    QPainter painter;
-
 public:
     QPen  pen;
     QPen  textPen;
     QFont font;
+
+private:
+    QPainter painter;
     //}}}
 };
 
