@@ -6,9 +6,16 @@ void PlannerWidget::passSize()
     plannerTableWidget->resize(scrollArea->size());
 }
 
+void PlannerWidget::passMinimumSize()
+{
+    scrollArea->setMinimumSize(plannerTableWidget->minimumSize());
+}
+
 void PlannerWidget::resizeEvent(QResizeEvent* event)
 {
     passSize();
+
+    passMinimumSize();
 }
 
 PlannerWidget::PlannerWidget(QWidget* parent) : QWidget(parent)

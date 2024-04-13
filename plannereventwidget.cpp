@@ -1,51 +1,19 @@
 #include "plannereventwidget.h"
 
 
-void PlannerEventWidget::mousePressEvent(QMouseEvent *event)
+//  setters/getters{{{
+void PlannerEventWidget::setEventInterval(std::pair<int, int> eventInterval)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-        dragStartPos = event->pos();
-        dragging = true;
-    }
+    this->eventInterval = eventInterval;
 }
 
-void PlannerEventWidget::mouseMoveEvent(QMouseEvent *event)
+std::pair<int, int> PlannerEventWidget::getEventInterval()
 {
-    if (!(event->buttons() & Qt::LeftButton))
-    {
-        return;
-    }
-
-    if (!dragging)
-    {
-        return;
-    }
-
-    QPoint newPos = QPoint(this->x(), this->y() + (event->y() - dragStartPos.y()));
-
-    this->move(newPos);
+    return eventInterval;
 }
-
-void PlannerEventWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    dragging = false;
-}
+//}}}
 
 PlannerEventWidget::PlannerEventWidget(QWidget* parent) : QWidget(parent)
 {
-    layout      = new QGridLayout(this);
-
-    label       = new QLabel(this);
-    interval    = new QLabel(this);
-
-    label   ->setText("Label");
-    interval->setText("Interval");
-
     setStyleSheet("background-color: #488286; border-radius: 5px;");
-
-    setLayout(layout);
-
-    layout->addWidget(label, 0, 0);
-    layout->addWidget(interval, 0, 1);
 }

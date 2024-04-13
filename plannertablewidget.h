@@ -6,14 +6,22 @@
 
 #include <QWidget>
 
+#include "plannereventwidget.h"
+
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPen>
 #include <QColor>
 
+#include <QMouseEvent>
+
+#include <QResizeEvent>
+
 
 class PlannerTableWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
     PlannerTableWidget(QWidget* parent = nullptr);
 
@@ -28,7 +36,7 @@ public:
     void setColumnsCount(int columnsCount = 0);
     void setRowsCount   (int rowsCount    = 0);
 
-    void addWidget(int column, QWidget* widget);
+    void addWidget(int column, PlannerEventWidget* plannerEventWidget);
     //}}}
 
 private:
@@ -57,11 +65,10 @@ private:
 
     void allocateWidgets();
 
-    void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
     //}}}
 
-protected:
-    //  drawers{{{
+    //  painters{{{
     void drawHorizontalHeaders();
     void drawVerticalHeaders();
 
@@ -70,19 +77,26 @@ protected:
     void paintEvent(QPaintEvent* event);
     //}}}
 
-private:
+    //  movers{{{
+    void mousePressEvent(QMouseEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    //}}}
+
     //  values{{{
     QStringList horizontalHeaders;
     QStringList verticalHeaders;
 
-    int textMargin{5};      //pixels
+    int textMargin{5};
 
-    int timeInterval{5};    //minutes <= 60 minutes
+    int timeInterval{30};
 
-    int columnsCount{0};    //amount
-    int rowsCount{0};       //amount
+    int columnsCount{0};
+    int rowsCount{0};
 
-    QVector<QVector<QWidget*>> columnsWidgets;
+    QVector<QVector<PlannerEventWidget*>> columnsWidgets;
 
     int horizontalHeadersMaxWidth;
     int verticalHeadersMaxWidth;
@@ -110,7 +124,10 @@ private:
 
     QVector<QRect> columnsRect;
 
-    QSize minimumSize;
+    QPoint              dragStartPos;
+    QPoint              dragStartChildPos;
+    PlannerEventWidget* dragChild;
+    bool                dragging = false;
     //}}}
 
     //  painter values{{{

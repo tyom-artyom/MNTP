@@ -12,6 +12,8 @@
 
 #include "plannereventwidget.h"
 
+#include <QResizeEvent>
+
 
 class PlannerWidget : public QWidget
 {
@@ -21,7 +23,9 @@ public:
 private:
     void passSize();
 
-    void resizeEvent(QResizeEvent* event);
+    void passMinimumSize();
+
+    void resizeEvent(QResizeEvent* event) override;
 
 
     QVBoxLayout*        layout;
@@ -33,9 +37,6 @@ private:
     PlannerEventWidget* plannerEventWidget;
     PlannerEventWidget* plannerEventWidget1;
     PlannerEventWidget* plannerEventWidget2;
-
-    int columnCount{};
-    int rowCount{};
 
     QStringList horizontalHeaders;
     QStringList verticalHeaders;

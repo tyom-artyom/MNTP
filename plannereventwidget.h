@@ -2,33 +2,26 @@
 #define PLANNEREVENTWIDGET_H
 
 
-#include <QMouseEvent>
-
-#include <QGridLayout>
-
-#include <QLabel>
+#include <QWidget>
 
 
 class PlannerEventWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
     PlannerEventWidget(QWidget* parent = nullptr);
 
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
+    //  setters/getters{{{
+    void setEventInterval(std::pair<int, int> eventInterval);
 
-    void mouseMoveEvent(QMouseEvent *event) override;
+    std::pair<int, int> getEventInterval();
+    //}}}
 
-    void mouseReleaseEvent(QMouseEvent *event) override;
+    virtual ~PlannerEventWidget(){};
 
 private:
-    QGridLayout* layout;
-
-    QLabel* label;
-    QLabel* interval;
-
-    QPoint dragStartPos;
-    bool   dragging = false;
+    std::pair<int, int> eventInterval{0, 60};
 };
 
 

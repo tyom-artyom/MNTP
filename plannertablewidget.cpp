@@ -43,9 +43,9 @@ void PlannerTableWidget::setRowsCount(int rowsCount)
     verticalHeadersRect.resize(rowsCount);
 }
 
-void PlannerTableWidget::addWidget(int column, QWidget* widget)
+void PlannerTableWidget::addWidget(int column, PlannerEventWidget* plannerEventWidget)
 {
-    columnsWidgets[column].append(widget);
+    columnsWidgets[column].append(plannerEventWidget);
 }
 //}}}
 
@@ -158,7 +158,7 @@ void PlannerTableWidget::fillColumnsRect()
     {
         columnLine = verticalHeadersMaxWidth + (columnsMargin * column) + (column + 1) - 1;
 
-        columnsRect[column] = QRect(columnLine + 1, rowLine + 1, (column < columnsCount - 1 ? columnsMargin - 1 : width() - ((columnLine + 1) + 1)), height() - ((rowLine + 1) + 1));
+        columnsRect[column] = QRect(columnLine + 1, rowLine, (column < columnsCount - 1 ? columnsMargin - 1 : width() - ((columnLine + 1) + 1)), height() - ((rowLine + 1) + 1));
     }
 }
 
@@ -167,19 +167,17 @@ void PlannerTableWidget::countMinimumSize()
     int minimumTableWidth{verticalHeadersMaxWidth + (horizontalHeadersMaxWidth * columnsCount) + columnsCount};
     int minimumTableHeight{horizontalHeadersHeight + (verticalHeadersHeight * rowsCount) + rowsCount};
 
-    minimumSize = QSize(minimumTableWidth, minimumTableHeight);
-
-    setMinimumSize(minimumSize);
+    setMinimumSize(minimumTableWidth, minimumTableHeight);
 }
 
 void PlannerTableWidget::allocateWidgets()
 {
     for (int column{} ; column  < columnsCount ; ++column)
     {
-        for (QWidget* columnWidget : columnsWidgets[column])
+        for (PlannerEventWidget* columnWidget : columnsWidgets[column])
         {
-            columnWidget->move(columnsRect[column].x(), columnsRect[column].y());
-            columnWidget->resize(columnsRect[column].width() + 1, columnWidget->height());
+            columnWidget->move(columnsRect[column].x(), columnsRect[column].y() + (timeIntervalSize * columnWidget->getEventInterval().first));
+            columnWidget->resize(columnsRect[column].width() + 1, timeIntervalSize * ((columnWidget->getEventInterval().second - columnWidget->getEventInterval().first) / timeInterval));
         }
     }
 }
@@ -260,6 +258,46 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
     drawTable();
 
     painter.end();
+}
+//}}}
+
+//  movers{{{
+void PlannerTableWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (dynamic_cast<PlannerEventWidget*>(childAt(event->pos())) == nullptr)
+    {
+        return;
+    }
+
+    dragStartPos = event->pos();
+
+    dragChild = qobject_cast<PlannerEventWidget*>(childAt(dragStartPos));
+
+    dragStartChildPos = dragChild->pos();
+
+    dragging = true;
+}
+
+void PlannerTableWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (!dragging)
+    {
+        return;
+    }
+
+    QPoint newPos = QPoint(dragStartChildPos.x(), dragStartChildPos.y() + (event->position().y() - dragStartPos.y()));
+
+    if (((newPos.y() - horizontalHeadersHeight) % timeIntervalSize == 0) && (newPos.y() + 1 > horizontalHeadersHeight))
+    {
+        dragChild->move(newPos);
+
+        dragChild->setEventInterval(std::pair<int, int>(dragChild->getEventInterval().first + timeInterval, dragChild->getEventInterval().second + timeInterval));
+    }
+}
+
+void PlannerTableWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    dragging = false;
 }
 //}}}
 
