@@ -3,12 +3,12 @@
 
 void PlannerWidget::passSize()
 {
-    plannerTableWidget->resize(scrollArea->size());
+    plannerTableWidget->resize(scrollArea->viewport()->size());
 }
 
 void PlannerWidget::passMinimumSize()
 {
-    scrollArea->setMinimumSize(plannerTableWidget->minimumSize());
+    scrollArea->setMinimumSize(plannerTableWidget->minimumSize() + (scrollArea->size() - scrollArea->viewport()->size()));
 }
 
 void PlannerWidget::resizeEvent(QResizeEvent* event)

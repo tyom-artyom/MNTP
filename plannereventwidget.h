@@ -4,6 +4,13 @@
 
 #include <QWidget>
 
+#include <QPaintEvent>
+
+#include <QPainter>
+
+#include <QStyleOption>
+#include <QStyle>
+
 
 class PlannerEventWidget : public QWidget
 {
@@ -12,13 +19,15 @@ class PlannerEventWidget : public QWidget
 public:
     PlannerEventWidget(QWidget* parent = nullptr);
 
+    virtual ~PlannerEventWidget();
+
+    void paintEvent(QPaintEvent* event) override;
+
     //  setters/getters{{{
     void setEventInterval(std::pair<int, int> eventInterval);
 
     std::pair<int, int> getEventInterval();
     //}}}
-
-    virtual ~PlannerEventWidget(){};
 
 private:
     std::pair<int, int> eventInterval{0, 60};

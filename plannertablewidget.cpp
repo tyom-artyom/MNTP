@@ -1,5 +1,11 @@
 #include "plannertablewidget.h"
 
+
+PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QWidget(parent)
+{
+
+}
+
 //  setters/adders{{{
 void PlannerTableWidget::setHorizontalHeaders(QStringList& horizontalHeaders)
 {
@@ -176,7 +182,7 @@ void PlannerTableWidget::allocateWidgets()
     {
         for (PlannerEventWidget* columnWidget : columnsWidgets[column])
         {
-            columnWidget->move(columnsRect[column].x(), columnsRect[column].y() + (timeIntervalSize * columnWidget->getEventInterval().first));
+            columnWidget->move(columnsRect[column].x(), columnsRect[column].y() + (timeIntervalSize * (columnWidget->getEventInterval().first / timeInterval)));
             columnWidget->resize(columnsRect[column].width() + 1, timeIntervalSize * ((columnWidget->getEventInterval().second - columnWidget->getEventInterval().first) / timeInterval));
         }
     }
@@ -264,7 +270,7 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
 //  movers{{{
 void PlannerTableWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (dynamic_cast<PlannerEventWidget*>(childAt(event->pos())) == nullptr)
+    if (qobject_cast<PlannerEventWidget*>(childAt(event->pos())) == nullptr)
     {
         return;
     }
@@ -300,8 +306,3 @@ void PlannerTableWidget::mouseReleaseEvent(QMouseEvent *event)
     dragging = false;
 }
 //}}}
-
-PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QWidget(parent)
-{
-
-}

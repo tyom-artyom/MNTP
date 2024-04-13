@@ -25,6 +25,8 @@ class PlannerTableWidget : public QWidget
 public:
     PlannerTableWidget(QWidget* parent = nullptr);
 
+    virtual ~PlannerTableWidget(){};
+
     //  setters/adders{{{
     void setHorizontalHeaders(QStringList& horizontalHeaders);
     void setVerticalHeaders  (QStringList& verticalHeaders);
@@ -74,7 +76,7 @@ private:
 
     void drawTable();
 
-    void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
     //}}}
 
     //  movers{{{
