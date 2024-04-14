@@ -4,6 +4,10 @@
 
 #include <QDebug>
 
+#include <QCursor>
+
+#include <QTimer>
+
 #include <QWidget>
 
 #include "plannereventwidget.h"
@@ -33,7 +37,7 @@ public:
 
     void setTextMargin(int textMargin = 5);
 
-    void setTimeInterval(int timeInterval = 5);
+    void setTimeInterval(int timeInterval = 15);
 
     void setColumnsCount(int columnsCount = 0);
     void setRowsCount   (int rowsCount    = 0);
@@ -82,7 +86,7 @@ private:
     //  movers{{{
     void mousePressEvent(QMouseEvent *event) override;
 
-    void mouseMoveEvent(QMouseEvent *event) override;
+    void moveEventWidget();
 
     void mouseReleaseEvent(QMouseEvent *event) override;
     //}}}
@@ -91,12 +95,12 @@ private:
     QStringList horizontalHeaders;
     QStringList verticalHeaders;
 
-    int textMargin{5};
+    int textMargin  {5};
 
-    int timeInterval{30};
+    int timeInterval{15};
 
     int columnsCount{0};
-    int rowsCount{0};
+    int rowsCount   {0};
 
     QVector<QVector<PlannerEventWidget*>> columnsWidgets;
 
@@ -130,6 +134,8 @@ private:
     QPoint              dragStartChildPos;
     PlannerEventWidget* dragChild;
     bool                dragging = false;
+
+    QTimer timer;
     //}}}
 
     //  painter values{{{

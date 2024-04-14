@@ -3,7 +3,7 @@
 
 PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QWidget(parent)
 {
-
+    QObject::connect(&timer, &QTimer::timeout, this, &PlannerTableWidget::moveEventWidget);
 }
 
 //  setters/adders{{{
@@ -270,28 +270,40 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
 //  movers{{{
 void PlannerTableWidget::mousePressEvent(QMouseEvent *event)
 {
+    qDebug() << "mousePressEvent() 1";
+
     if (qobject_cast<PlannerEventWidget*>(childAt(event->pos())) == nullptr)
     {
         return;
     }
 
-    dragStartPos = event->pos();
+    qDebug() << "mousePressEvent() 2";
+
+    dragStartPos = mapFromGlobal(QCursor::pos());
 
     dragChild = qobject_cast<PlannerEventWidget*>(childAt(dragStartPos));
 
     dragStartChildPos = dragChild->pos();
 
+    qDebug() << "mousePressEvent() 3";
+
     dragging = true;
+
+    timer.start(5);
+
+    QWidget::mousePressEvent(event);
 }
 
-void PlannerTableWidget::mouseMoveEvent(QMouseEvent *event)
+void PlannerTableWidget::moveEventWidget()
 {
+    qDebug() << "moveEventWidget()";
+
     if (!dragging)
     {
         return;
     }
 
-    QPoint newPos = QPoint(dragStartChildPos.x(), dragStartChildPos.y() + (event->position().y() - dragStartPos.y()));
+    QPoint newPos = QPoint(dragStartChildPos.x(), dragStartChildPos.y() + (mapFromGlobal(QCursor::pos()).y() - dragStartPos.y()));
 
     if (((newPos.y() - horizontalHeadersHeight) % timeIntervalSize == 0) && (newPos.y() + 1 > horizontalHeadersHeight))
     {
@@ -304,5 +316,9 @@ void PlannerTableWidget::mouseMoveEvent(QMouseEvent *event)
 void PlannerTableWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     dragging = false;
+
+    timer.stop();
+
+    QWidget::mouseReleaseEvent(event);
 }
 //}}}
