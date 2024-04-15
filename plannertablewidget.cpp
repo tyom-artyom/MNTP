@@ -252,6 +252,8 @@ void PlannerTableWidget::drawTable()
 
 void PlannerTableWidget::paintEvent(QPaintEvent *event)
 {
+    QWidget::paintEvent(event);
+
     painter.begin(this);
 
     painter.setPen(textPen);

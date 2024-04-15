@@ -13,6 +13,8 @@ PlannerEventWidget::~PlannerEventWidget()
 
 void PlannerEventWidget::paintEvent(QPaintEvent* event)
 {
+    QWidget::paintEvent(event);
+
     QPainter painter(this);
 
     QStyleOption styleOption;
