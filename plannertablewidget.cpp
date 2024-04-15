@@ -182,8 +182,8 @@ void PlannerTableWidget::allocateWidgets()
     {
         for (PlannerEventWidget* columnWidget : columnsWidgets[column])
         {
-            columnWidget->move(columnsRect[column].x(), columnsRect[column].y() + (timeIntervalSize * (columnWidget->getEventInterval().first / timeInterval)));
-            columnWidget->resize(columnsRect[column].width() + 1, timeIntervalSize * ((columnWidget->getEventInterval().second - columnWidget->getEventInterval().first) / timeInterval));
+            columnWidget->move(columnsRect[column].x(), columnsRect[column].y() + (timeIntervalSize * (columnWidget->getEventTimeInterval().first / timeInterval)));
+            columnWidget->resize(columnsRect[column].width() + 1, timeIntervalSize * ((columnWidget->getEventTimeInterval().second - columnWidget->getEventTimeInterval().first) / timeInterval));
         }
     }
 }
@@ -309,9 +309,9 @@ void PlannerTableWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QWidget::mouseReleaseEvent(event);
 
-    int eventIntervalFirst = timeInterval * ((lastDragChildPos.y() - horizontalHeadersHeight) / timeIntervalSize);
+    int eventTimeIntervalFirst = timeInterval * ((lastDragChildPos.y() - horizontalHeadersHeight) / timeIntervalSize);
 
-    dragChild->setEventInterval(std::pair<int, int>(eventIntervalFirst, eventIntervalFirst + (dragChild->getEventInterval().second - dragChild->getEventInterval().first)));
+    dragChild->setEventTimeInterval(std::pair<int, int>(eventTimeIntervalFirst, eventTimeIntervalFirst + (dragChild->getEventTimeInterval().second - dragChild->getEventTimeInterval().first)));
 
     dragging = false;
 }

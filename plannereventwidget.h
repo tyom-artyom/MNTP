@@ -24,13 +24,13 @@ public:
     void paintEvent(QPaintEvent* event) override;
 
     //  setters/getters{{{
-    void setEventInterval(std::pair<int, int> eventInterval);
+    void setEventTimeInterval(std::pair<int, int> eventTimeInterval);
 
-    std::pair<int, int> getEventInterval();
+    std::pair<int, int> getEventTimeInterval();
     //}}}
 
 private:
-    std::pair<int, int> eventInterval{0, 60};
+    std::pair<int, int> eventTimeInterval{0, 60};
 };
 
 

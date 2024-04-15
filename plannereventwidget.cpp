@@ -23,14 +23,14 @@ void PlannerEventWidget::paintEvent(QPaintEvent* event)
 }
 
 //  setters/getters{{{
-void PlannerEventWidget::setEventInterval(std::pair<int, int> eventInterval)
+void PlannerEventWidget::setEventTimeInterval(std::pair<int, int> eventTimeInterval)
 {
-    this->eventInterval = eventInterval;
+    this->eventTimeInterval = eventTimeInterval;
 }
 
-std::pair<int, int> PlannerEventWidget::getEventInterval()
+std::pair<int, int> PlannerEventWidget::getEventTimeInterval()
 {
-    return eventInterval;
+    return eventTimeInterval;
 }
 //}}}
 
