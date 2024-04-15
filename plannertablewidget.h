@@ -86,7 +86,7 @@ private:
     //  movers{{{
     void mousePressEvent(QMouseEvent *event) override;
 
-    void moveEventWidget();
+    void mouseMoveEvent(QMouseEvent* event) override;
 
     void mouseReleaseEvent(QMouseEvent *event) override;
     //}}}
@@ -130,12 +130,10 @@ private:
 
     QVector<QRect> columnsRect;
 
-    QPoint              dragStartPos;
-    QPoint              dragStartChildPos;
     PlannerEventWidget* dragChild;
+    QPoint              dragOffset;
+    QPoint              lastDragChildPos;
     bool                dragging = false;
-
-    QTimer timer;
     //}}}
 
     //  painter values{{{

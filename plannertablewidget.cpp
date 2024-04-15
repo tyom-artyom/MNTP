@@ -3,7 +3,7 @@
 
 PlannerTableWidget::PlannerTableWidget(QWidget* parent) : QWidget(parent)
 {
-    QObject::connect(&timer, &QTimer::timeout, this, &PlannerTableWidget::moveEventWidget);
+
 }
 
 //  setters/adders{{{
@@ -270,55 +270,49 @@ void PlannerTableWidget::paintEvent(QPaintEvent *event)
 //  movers{{{
 void PlannerTableWidget::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "mousePressEvent() 1";
+    QWidget::mousePressEvent(event);
 
     if (qobject_cast<PlannerEventWidget*>(childAt(event->pos())) == nullptr)
     {
         return;
     }
 
-    qDebug() << "mousePressEvent() 2";
+    dragChild = qobject_cast<PlannerEventWidget*>(childAt(event->pos()));
 
-    dragStartPos = mapFromGlobal(QCursor::pos());
-
-    dragChild = qobject_cast<PlannerEventWidget*>(childAt(dragStartPos));
-
-    dragStartChildPos = dragChild->pos();
-
-    qDebug() << "mousePressEvent() 3";
+    dragOffset = event->pos() - dragChild->pos();
 
     dragging = true;
-
-    timer.start(5);
-
-    QWidget::mousePressEvent(event);
 }
 
-void PlannerTableWidget::moveEventWidget()
+void PlannerTableWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    qDebug() << "moveEventWidget()";
+    QWidget::mouseMoveEvent(event);
+
+    qDebug() << event->pos();
 
     if (!dragging)
     {
         return;
     }
 
-    QPoint newPos = QPoint(dragStartChildPos.x(), dragStartChildPos.y() + (mapFromGlobal(QCursor::pos()).y() - dragStartPos.y()));
+    QPoint newPos = QPoint(dragChild->x(), event->pos().y() - dragOffset.y());
 
-    if (((newPos.y() - horizontalHeadersHeight) % timeIntervalSize == 0) && (newPos.y() + 1 > horizontalHeadersHeight))
+    if (((newPos.y() - horizontalHeadersHeight) % timeIntervalSize == 0) && (newPos.y() > horizontalHeadersHeight - 1))
     {
         dragChild->move(newPos);
 
-        dragChild->setEventInterval(std::pair<int, int>(dragChild->getEventInterval().first + timeInterval, dragChild->getEventInterval().second + timeInterval));
+        lastDragChildPos = dragChild->pos();
     }
 }
 
 void PlannerTableWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    dragging = false;
-
-    timer.stop();
-
     QWidget::mouseReleaseEvent(event);
+
+    int eventIntervalFirst = timeInterval * ((lastDragChildPos.y() - horizontalHeadersHeight) / timeIntervalSize);
+
+    dragChild->setEventInterval(std::pair<int, int>(eventIntervalFirst, eventIntervalFirst + (dragChild->getEventInterval().second - dragChild->getEventInterval().first)));
+
+    dragging = false;
 }
 //}}}
